@@ -18,7 +18,7 @@ renderer.shadowMap.enabled = !lowEnd;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
+renderer.toneMappingExposure = 1.15;
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x05070a);
@@ -123,7 +123,7 @@ function frame(now) {
 
     // subtle flashlight flicker for atmosphere
     if (player.flashOn && !ending.active) {
-      player.flashlight.intensity = 2.2 + Math.sin(elapsed * 30) * 0.06 + (Math.random() < 0.01 ? -0.8 : 0);
+      player.flashlight.intensity = player.flashBase + Math.sin(elapsed * 30) * 1.0 + (Math.random() < 0.01 ? -10 : 0);
     }
   }
 
@@ -131,3 +131,8 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
+
+// Debug/testing hook (harmless in normal play): lets an automated harness or the
+// dev console inspect and drive the game.
+window.__game = { scene, camera, renderer, world, player, npcs, ending, dialogue, input,
+  startGame, teleport(x, z, y = 0) { player.pos.set(x, y, z); }, monologues };

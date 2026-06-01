@@ -25,13 +25,14 @@ export class Ending {
   _spawnCop() {
     this.cop = makePoliceOfficer();
     // arrives at the goal-room doorway (z=-17), walks toward the player
-    this.cop.position.set(0, 3.4, -16.8);
+    // spawn in the hallway, just outside the door, so the player sees him approach
+    this.cop.position.set(0, 3.4, -15.4);
     this.cop.rotation.y = 0; // faces -Z (north), toward the player deeper in the room
     this.scene.add(this.cop);
-    // a hard flashlight-style torch from the officer
-    const torch = new THREE.SpotLight(0xcfe0ff, 3.0, 14, Math.PI / 7, 0.5, 1.2);
-    torch.position.set(0, 1.7, 0.2);
-    const tgt = new THREE.Object3D(); tgt.position.set(0, 1.4, 6); this.cop.add(tgt); this.cop.add(torch);
+    // a hard flashlight-style torch from the officer, aimed at the player (-Z)
+    const torch = new THREE.SpotLight(0xcfe0ff, 26, 16, Math.PI / 6, 0.4, 2.0);
+    torch.position.set(0, 1.7, -0.2);
+    const tgt = new THREE.Object3D(); tgt.position.set(0, 1.4, -6); this.cop.add(tgt); this.cop.add(torch);
     torch.target = tgt;
   }
 
@@ -78,7 +79,7 @@ export class Ending {
       }
 
       case 5: { // officer advances from the door toward the player
-        const c = this.cop; const stopZ = P.pos.z + 1.4;
+        const c = this.cop; const stopZ = P.pos.z + 1.9;
         if (c.position.z > stopZ) {
           c.position.z -= dt * 1.8;
           const sw = Math.sin(this.t * 7) * 0.5;

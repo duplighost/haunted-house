@@ -18,9 +18,11 @@ export class Player {
     this.frozen = false;
     this.lookSpeed = 0.0024;
 
-    // Flashlight: a spotlight parented to the camera.
-    this.flashlight = new THREE.SpotLight(0xfff1d8, 2.2, 18, Math.PI / 6, 0.45, 1.4);
-    this.flashlight.position.set(0.2, -0.1, 0.2);
+    // Flashlight: a spotlight parented to the camera. (r161 uses physical light
+    // units, so this needs a high candela value with quadratic decay.)
+    this.flashBase = 34;
+    this.flashlight = new THREE.SpotLight(0xfff1d8, this.flashBase, 22, Math.PI / 5, 0.4, 2.0);
+    this.flashlight.position.set(0.15, -0.1, 0.2);
     this.flashTarget = new THREE.Object3D();
     camera.add(this.flashlight);
     camera.add(this.flashTarget);
@@ -36,7 +38,7 @@ export class Player {
 
   toggleFlashlight() {
     this.flashOn = !this.flashOn;
-    this.flashlight.intensity = this.flashOn ? 2.2 : 0;
+    this.flashlight.intensity = this.flashOn ? this.flashBase : 0;
   }
 
   applyLook(dx, dy) {

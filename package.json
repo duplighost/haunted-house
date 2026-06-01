@@ -1,0 +1,15 @@
+{
+  "name": "haunted-house",
+  "version": "1.0.0",
+  "description": "The House on Mercer Lane — a short first-person 3D haunted-mansion game built with Three.js.",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 8099",
+    "test": "node test.cjs"
+  },
+  "keywords": ["game", "threejs", "webgl", "first-person"],
+  "license": "MIT",
+  "devDependencies": {
+    "playwright": "1.48"
+  }
+}

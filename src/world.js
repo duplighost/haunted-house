@@ -75,9 +75,10 @@ export class World {
   }
   _place(obj, x, y, z, ry = 0) { obj.position.set(x, y, z); obj.rotation.y = ry; this.scene.add(obj); return obj; }
 
-  _roomLight(x, y, z, color = 0xffd9a0, intensity = 1.0, dist = 11) {
+  _roomLight(x, y, z, color = 0xffd9a0, intensity = 1.0, dist = 14) {
     const l = new THREE.PointLight(color, 0, dist, 2);
-    l.position.set(x, y, z); l.userData.onIntensity = intensity;
+    // physical units: scale up so each fixture reads as a real light at the reveal
+    l.position.set(x, y, z); l.userData.onIntensity = intensity * 16;
     this.scene.add(l); this.roomLights.push(l);
     return l;
   }
@@ -263,10 +264,10 @@ export class World {
 
   _lighting() {
     // Very dark base. Most rooms unlit until the ending flips every switch.
-    this.ambient = new THREE.AmbientLight(0x223040, 0.18);
+    this.ambient = new THREE.AmbientLight(0x2a3a4e, 0.32);
     this.scene.add(this.ambient);
     // cold moonlight from "outside"
-    this.moon = new THREE.DirectionalLight(0x6c84a8, 0.25);
+    this.moon = new THREE.DirectionalLight(0x6c84a8, 0.4);
     this.moon.position.set(-18, 22, 14); this.scene.add(this.moon);
     this.scene.fog = new THREE.FogExp2(0x05070a, 0.045);
 
@@ -308,7 +309,7 @@ export class World {
 
   // Turn every light in the house ON (the ending).
   blazeAllLights() {
-    this.ambient.intensity = 0.85;
+    this.ambient.intensity = 0.55;
     this.ambient.color.setHex(0xf2ead8);
     this.moon.intensity = 0.3;
     for (const l of this.roomLights) l.intensity = l.userData.onIntensity;

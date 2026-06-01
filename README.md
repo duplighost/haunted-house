@@ -22,8 +22,21 @@ python3 -m http.server 8099
 ```
 
 Or host the folder on any static host (GitHub Pages, Netlify, etc.) and open it.
-Three.js is loaded from a CDN via the import map in `index.html`, so an internet
-connection is required the first time.
+Three.js is **vendored locally** (`vendor/three.module.js`) and wired up through the
+import map in `index.html`, so the game is fully self-contained — no CDN, no internet
+required, no build step.
+
+### Testing
+
+A headless Playwright smoke test (`test.cjs`) loads the game with software WebGL,
+asserts it builds with no console errors, drives movement, visits each room, and
+runs the full ending sequence:
+
+```bash
+npm install            # installs playwright (dev only)
+npx playwright install chromium
+npm test               # -> node test.cjs
+```
 
 ## Controls
 

@@ -2,7 +2,17 @@
 // Every builder returns a THREE.Group positioned with its origin at the floor.
 import * as THREE from 'three';
 
-const mat = (color, opts = {}) => new THREE.MeshStandardMaterial({ color, roughness: opts.rough ?? 0.85, metalness: opts.metal ?? 0.0, emissive: opts.emissive ?? 0x000000, emissiveIntensity: opts.ei ?? 1, ...opts });
+const mat = (color, opts = {}) => {
+  const { rough, metal, emissive, ei, ...rest } = opts;
+  return new THREE.MeshStandardMaterial({
+    color,
+    roughness: rough ?? 0.85,
+    metalness: metal ?? 0.0,
+    emissive: emissive ?? 0x000000,
+    emissiveIntensity: ei ?? 1,
+    ...rest,
+  });
+};
 
 const box = (w, h, d, material, x = 0, y = 0, z = 0) => {
   const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), material);
