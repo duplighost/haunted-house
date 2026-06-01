@@ -1,11 +1,12 @@
 name: Deploy game to GitHub Pages
 
 # Publishes the static game at the repo root to GitHub Pages.
-# Runs on the default branch and on this feature branch so the game is
-# playable before the PR is merged.
+# NOTE: enable Pages once in repo Settings -> Pages -> Source: "GitHub Actions",
+# then this deploys automatically on pushes to the default branch (or run it
+# manually from the Actions tab via "Run workflow").
 on:
   push:
-    branches: ["main", "claude/claude-md-docs-nhzEQ"]
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
